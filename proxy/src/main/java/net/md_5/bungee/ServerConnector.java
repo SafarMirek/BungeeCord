@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
+import net.md_5.bungee.api.event.IpForwardEvent;
 import net.md_5.bungee.api.event.ServerConnectEvent;
 import net.md_5.bungee.api.event.ServerConnectedEvent;
 import net.md_5.bungee.api.event.ServerKickEvent;
@@ -105,7 +106,10 @@ public class ServerConnector extends PacketHandler
 
         if ( BungeeCord.getInstance().config.isIpForward() && user.getSocketAddress() instanceof InetSocketAddress )
         {
-            String newHost = copiedHandshake.getHost() + "\00" + AddressUtil.sanitizeAddress( user.getAddress() ) + "\00" + user.getUUID();
+            IpForwardEvent event = new IpForwardEvent( copiedHandshake, user.getUUID(), user.getName() );
+            bungee.getPluginManager().callEvent( event );
+
+            String newHost = copiedHandshake.getHost() + "\00" + AddressUtil.sanitizeAddress( user.getAddress() ) + "\00" + event.getUuid();
 
             LoginResult profile = user.getPendingConnection().getLoginProfile();
             if ( profile != null && profile.getProperties() != null && profile.getProperties().length > 0 )
