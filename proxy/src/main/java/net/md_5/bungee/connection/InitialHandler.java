@@ -513,7 +513,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
 
     private void finish()
     {
-        offlineId = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + getName() ).getBytes( Charsets.UTF_8 ) );
+        if ( offlineId == null )
+        {
+            offlineId = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + getName() ).getBytes( Charsets.UTF_8 ) );
+        }
         if ( uniqueId == null )
         {
             uniqueId = offlineId;
@@ -707,6 +710,19 @@ public class InitialHandler extends PacketHandler implements PendingConnection
         Preconditions.checkState( thisState == State.USERNAME, "Can only set uuid while state is username" );
         Preconditions.checkState( !onlineMode, "Can only set uuid when online mode is false" );
         this.uniqueId = uuid;
+    }
+
+    @Override
+    public UUID getOfflineId()
+    {
+        return offlineId;
+    }
+
+    @Override
+    public void setOfflineId(UUID uuid)
+    {
+        Preconditions.checkState( thisState == State.USERNAME, "Can only set uuid while state is username" );
+        this.offlineId = uuid;
     }
 
     @Override
