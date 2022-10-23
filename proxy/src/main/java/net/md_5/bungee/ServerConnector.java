@@ -106,7 +106,7 @@ public class ServerConnector extends PacketHandler
 
         if ( BungeeCord.getInstance().config.isIpForward() && user.getSocketAddress() instanceof InetSocketAddress )
         {
-            IpForwardEvent event = new IpForwardEvent( copiedHandshake, user.getUUID(), user.getName() );
+            IpForwardEvent event = new IpForwardEvent( copiedHandshake, user.getUUID(), user.getName(), target );
             bungee.getPluginManager().callEvent( event );
 
             String newHost = copiedHandshake.getHost() + "\00" + AddressUtil.sanitizeAddress( user.getAddress() ) + "\00" + event.getUuid();
