@@ -33,6 +33,7 @@ import net.md_5.bungee.protocol.packet.PlayerListHeaderFooter;
 import net.md_5.bungee.protocol.packet.PlayerListItem;
 import net.md_5.bungee.protocol.packet.PlayerListItemRemove;
 import net.md_5.bungee.protocol.packet.PlayerListItemUpdate;
+import net.md_5.bungee.protocol.packet.PlayerSession;
 import net.md_5.bungee.protocol.packet.PluginMessage;
 import net.md_5.bungee.protocol.packet.Respawn;
 import net.md_5.bungee.protocol.packet.ScoreboardDisplay;
@@ -440,6 +441,12 @@ public enum Protocol
                     ClientChat::new,
                     map( ProtocolConstants.MINECRAFT_1_19, 0x04 ),
                     map( ProtocolConstants.MINECRAFT_1_19_1, 0x05 )
+            );
+            TO_SERVER.registerPacket(
+                    PlayerSession.class,
+                    PlayerSession::new,
+                    map( ProtocolConstants.MINECRAFT_1_19_3, 0x20 ),
+                    map( ProtocolConstants.MINECRAFT_1_20, 0x06 )
             );
             TO_SERVER.registerPacket(
                     TabCompleteRequest.class,

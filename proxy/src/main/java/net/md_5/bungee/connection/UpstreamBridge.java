@@ -33,6 +33,7 @@ import net.md_5.bungee.protocol.packet.ClientSettings;
 import net.md_5.bungee.protocol.packet.KeepAlive;
 import net.md_5.bungee.protocol.packet.PlayerListItem;
 import net.md_5.bungee.protocol.packet.PlayerListItemRemove;
+import net.md_5.bungee.protocol.packet.PlayerSession;
 import net.md_5.bungee.protocol.packet.PluginMessage;
 import net.md_5.bungee.protocol.packet.TabCompleteRequest;
 import net.md_5.bungee.protocol.packet.TabCompleteResponse;
@@ -176,6 +177,12 @@ public class UpstreamBridge extends PacketHandler
     public void handle(ClientChat chat) throws Exception
     {
         handleChat( chat.getMessage() );
+    }
+
+    @Override
+    public void handle(PlayerSession playerSession) throws Exception
+    {
+        throw CancelSendSignal.INSTANCE;
     }
 
     @Override
